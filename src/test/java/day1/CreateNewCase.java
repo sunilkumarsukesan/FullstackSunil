@@ -61,8 +61,8 @@ public class CreateNewCase {
 		Assert.assertTrue("Case", driver.findElement(By.xpath("//span[text()='Case']")).isDisplayed());
 		Taskid = driver.findElement(By.xpath("//span[text()='Case']/a")).getAttribute("title");
 		System.out.println("Newly created task id is, " + Taskid);
-		Assert.assertTrue("Case", driver.findElement(By.xpath("//div[text()='" + Taskid + "']")).isDisplayed());
-		Assert.assertTrue("Case", driver.findElement(By.xpath("//span[text()=' was created.']")).isDisplayed());
+		Assert.assertTrue("Case ID", driver.findElement(By.xpath("//div[text()='" + Taskid + "']")).isDisplayed());
+		Assert.assertTrue("was created", driver.findElement(By.xpath("//span[text()=' was created.']")).isDisplayed());
 		driver.quit();
 
 	}
