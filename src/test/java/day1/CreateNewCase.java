@@ -54,7 +54,7 @@ public class CreateNewCase {
 		driver.findElement(By.xpath("//span[text()='Description']/following::textarea")).sendKeys("Dummy");
 
 		// Click 'Save'
-		driver.findElement(By.xpath("//button[contains(@class,'publisherShareButton')]/span")).click();
+		driver.findElement(By.xpath("//button[contains(@class,'forceActionButton')]/span[text()='Save']")).click();
 
 		// Verifying the confirmation message
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Case']")));

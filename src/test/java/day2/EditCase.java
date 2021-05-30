@@ -82,9 +82,9 @@ public class EditCase {
 		// Verifying the confirmation message
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Case']")));
 		Assert.assertTrue("Case", driver.findElement(By.xpath("//span[text()='Case']")).isDisplayed());
-		System.out.println("Newly created task id is, " + TicketNumber);
-		Assert.assertTrue("Case ID", driver.findElement(By.xpath("//span[contains(text(),'" + TicketNumber + "')]")).isDisplayed());
-		Assert.assertTrue("was created", driver.findElement(By.xpath("//span[text()=' was saved.']")).isDisplayed());
+		System.out.println("Edited task id is, " + TicketNumber);
+		Assert.assertTrue("Case ID", driver.findElement(By.xpath("//span[text()='\""+ TicketNumber + "\"']")).isDisplayed());
+		Assert.assertTrue("was Edited", driver.findElement(By.xpath("//span[text()=' was saved.']")).isDisplayed());
 		driver.quit();
 
 	}
