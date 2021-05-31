@@ -1,6 +1,7 @@
 package sprint1;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DeleteCase {
 
-	public static void main(String[] args) throws InterruptedException{
+	public static void main(String[] args){
 		String TicketNumber;
 		System.setProperty("webdriver.chrome.driver", ".//drivers/chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
@@ -57,10 +58,20 @@ public class DeleteCase {
 		driver.findElement(By.xpath("//a[@title='Delete']")).click();
 		driver.findElement(By.xpath("//button[@title='Delete']")).click();
 		
-		//Verify the case with your name is deleted or not
+		//Verify the delete confirmation message
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(@class,'toastMessage')]")));	
 		assertEquals("Case \""+ TicketNumber+"\" was deleted. Undo", driver.findElement(By.xpath("//span[contains(@class,'toastMessage')]")).getText());
-		driver.quit();	
+		System.out.println(TicketNumber);
+		
+		//Verify the case with your name is deleted or not
+		driver.findElement(By.xpath("//a[@title='Select List View']")).click();
+		driver.findElement(By.xpath("//span[text()='Recently Viewed' and contains(@class,'virtual')]")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[contains(@placeholder,'Search this')]")));
+		driver.findElement(By.xpath("//input[contains(@placeholder,'Search this')]")).click();
+		driver.findElement(By.xpath("//input[contains(@placeholder,'Search this')]")).sendKeys(TicketNumber);
+		driver.findElement(By.xpath("//span[@title='Date/Time Opened']/parent::a")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='No items to display.']")));	
+		assertTrue(driver.findElement(By.xpath("//p[text()='No items to display.']")).isDisplayed());
 		}
 
 }
