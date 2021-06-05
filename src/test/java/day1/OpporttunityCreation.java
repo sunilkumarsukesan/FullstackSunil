@@ -28,7 +28,7 @@ public class OpporttunityCreation {
 
 		driver.get("https://login.salesforce.com/");
 		driver.findElement(By.name("username")).sendKeys("mercury.bootcamp@testleaf.com");
-		driver.findElement(By.id("password")).sendKeys("Bootcamp$123");
+		driver.findElement(By.id("password")).sendKeys("Bootcamp@123");
 		driver.findElement(By.id("Login")).click();
 
 		driver.findElement(By.xpath("//div[@class='slds-icon-waffle']")).click();

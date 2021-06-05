@@ -26,7 +26,7 @@ public class LoadAllAccounts {
 		// Launch the app and login with the credentials
 		driver.get("https://login.salesforce.com/");
 		driver.findElement(By.name("username")).sendKeys("mercury.bootcamp@testleaf.com");
-		driver.findElement(By.id("password")).sendKeys("Bootcamp$123");
+		driver.findElement(By.id("password")).sendKeys("Bootcamp@123");
 		driver.findElement(By.id("Login")).click();
 
 		// Click on toggle menu button from the left corner
