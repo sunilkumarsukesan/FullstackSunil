@@ -14,11 +14,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import utilities.Tools;
+
 public class CreateNewServiceAppointments {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args)  throws Exception {
 		String name = RandomStringUtils.randomAlphabetic(5);
-		String currenTime,min,hour = null,AppointmentNumber;
+		String currenTime,min,hour = null,AppointmentNumber,AnteMeridiem;
 		System.setProperty("webdriver.chrome.driver", ".//drivers//chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-notifications");
@@ -26,6 +28,7 @@ public class CreateNewServiceAppointments {
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Tools tools = new Tools(driver);
 		JavascriptExecutor executor = (JavascriptExecutor) driver;
 
 		// Launch the app, Click Login and Login with the credentials
@@ -89,30 +92,35 @@ public class CreateNewServiceAppointments {
 		LocalDateTime now = LocalDateTime.now();  
 		currenTime = pattern.format(now);
 		min = currenTime.substring(3, 5);
+		AnteMeridiem = currenTime.substring(6, 8);
 				
-		if (currenTime.substring(0, 1).equals("0")) {
-		hour = currenTime.substring(0, 2).replace("0", "");
-		}
+		if (currenTime.substring(0, 1).equals("0"))
+			hour = currenTime.substring(0, 2).replace("0", "");
+		else
+			hour = currenTime.substring(0, 2);
 		
 		if  (Integer.parseInt(min) > 30)
 		{
 			min = "00";
+			if (!hour.equals("12"))
 			hour = Integer.toString((Integer.parseInt(hour) + 1));
+			else
+			{
+			hour = "1";
+			if (currenTime.substring(6, 8).equals("AM"))
+				AnteMeridiem = "PM";
+			else
+				AnteMeridiem = "AM";	
+			}
 		}
 		else
 			min= "30";
 		
-		driver.findElement(By.xpath("//li[text()='" + hour + ":" + min+ " "+ currenTime.substring(6, 8) +"']")).click();
+		driver.findElement(By.xpath("//li[text()='" + hour + ":" + min+ " "+ AnteMeridiem +"']")).click();
 		
 		// Select 5+ days from Today's date as Due Date
 		driver.findElement(By.xpath("//span[text()='Due Date']/ancestor::fieldset//a[@class='datePicker-openIcon display']")).click();
-		pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
-		LocalDateTime currenDay= LocalDateTime.now();  
-		LocalDateTime currenDayPluse5 = currenDay.plusDays(5);
-		if (currenDayPluse5.getMonth()!= currenDay.getMonth()) {
-			driver.findElement(By.xpath("//a[contains(@class,'nextMonth')]")).click();
-		}
-		driver.findElement(By.xpath("//td[@data-datevalue='" + pattern.format(currenDayPluse5) + "']")).click();
+		tools.setDate(800);
 		
 		//click on save 
 		driver.findElement(By.xpath("//button[contains(@class,'neutral uiButton--brand')]")).click();
@@ -134,7 +142,7 @@ public class CreateNewServiceAppointments {
 		executor.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//p[text()='Service Appointments']")));
 		driver.findElement(By.xpath("//p[text()='Service Appointments']")).click();
 	
-		//Verify the Appointment Numbe
+		//Verify the Appointment Number
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@placeholder='Search this list...']")));
 		driver.findElement(By.xpath("//input[@placeholder='Search this list...']")).click();	
 		driver.findElement(By.xpath("//input[@placeholder='Search this list...']")).sendKeys(AppointmentNumber);	
