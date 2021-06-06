@@ -15,7 +15,7 @@ public class Tools {
 		this.driver = driver;
 	}
 
-	public void setDate(int days) throws Exception {
+	public void setDate(int days, String xpath) throws Exception {
 		int MonthDisplayed;
 		DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDateTime currentDay = LocalDateTime.now();
@@ -60,9 +60,9 @@ public class Tools {
 		}
 		else
 		{
-			 throw new Exception("cannot set a past date");
+			 throw new Exception("Cannot set a past date");
 		}
-		
-		driver.findElement(By.xpath("//td[@data-datevalue='" + pattern.format(currentDayPlus) + "']")).click();
+
+		driver.findElement(By.xpath("//td[@"+xpath +"='" + pattern.format(currentDayPlus) + "']")).click();
 	}
 }

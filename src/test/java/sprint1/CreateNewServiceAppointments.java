@@ -28,8 +28,8 @@ public class CreateNewServiceAppointments {
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		Tools tools = new Tools(driver);
 		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		Tools tools = new Tools(driver);
 
 		// Launch the app, Click Login and Login with the credentials
 		driver.get("https://login.salesforce.com/");
@@ -120,7 +120,7 @@ public class CreateNewServiceAppointments {
 		
 		// Select 5+ days from Today's date as Due Date
 		driver.findElement(By.xpath("//span[text()='Due Date']/ancestor::fieldset//a[@class='datePicker-openIcon display']")).click();
-		tools.setDate(800);
+		tools.setDate(6,"data-datevalue");
 		
 		//click on save 
 		driver.findElement(By.xpath("//button[contains(@class,'neutral uiButton--brand')]")).click();
