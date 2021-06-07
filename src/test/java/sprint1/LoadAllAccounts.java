@@ -1,10 +1,13 @@
 package sprint1;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -52,5 +55,15 @@ public class LoadAllAccounts {
 			previousCount = currentCount;
 			currentCount = driver.findElements(By.xpath("(//table[contains(@class,'uiVirtualDataTable')]//tr)")).size();
 		}
+		
+		//getting the account Names
+		List<WebElement> accountNamesWebElements = new ArrayList<WebElement>();
+		accountNamesWebElements = driver.findElements(By.xpath("//table[contains(@class,'uiVirtualDataTable')]//tr//a[@rel='noreferrer']"));
+		List<String> accountNames = new ArrayList<String>();
+		for (WebElement account : accountNamesWebElements) {
+			accountNames.add(account.getText());
+		}
+		System.out.println(accountNames);
+		System.out.println(accountNames.size());
 	}
 }
