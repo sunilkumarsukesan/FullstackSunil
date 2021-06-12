@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="tests">
+  <test thread-count="5" name="ChromeTest" parallel="tests">
+  	<parameter name ="BrowserName" value ="Chrome"/>
+    <classes>
+      <class name="sprint1Testng.LoadAllAccounts"/>
+    </classes>
+  </test> <!-- Test -->
+  <test thread-count="5" name="EdgeTest" parallel="tests">
+  <parameter name ="BrowserName" value ="Edge"/>
+    <classes>
+      <class name="sprint1Testng.LoadAllAccounts"/>
+    </classes>
+  </test> <!-- Test -->
+  <test thread-count="5" name="FirefoxTest" parallel="tests">
+  <parameter name ="BrowserName" value ="Firefox"/>
+    <classes>
+      <class name="sprint1Testng.LoadAllAccounts"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
