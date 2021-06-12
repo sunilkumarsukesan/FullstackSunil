@@ -17,7 +17,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class AssessmentOne {
 
 	public static void main(String[] args) throws InterruptedException {
-		int closedAmount, openAmount;
+		int closedAmount, openAmount,countOfOpenDasboards=0;
 		String name = "Sunil";
 		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
@@ -55,8 +55,7 @@ public class AssessmentOne {
 		driver.findElement(By.xpath("//button[@title='Show Navigation Menu']")).click();
 		driver.findElement(By.xpath("//span[text()='Home']")).click();
 
-		// 6. Add CLOSED + OPEN values and result should set as the GOAL (If the result
-		// is less than 10000 then set the goal as 10000)
+		// 6. Add CLOSED + OPEN values and result should set as the GOAL (If the result is less than 10000 then set the goal as 10000)
 		// wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[text()='--']")));
 		Thread.sleep(2000);
 		closedAmount = Integer.parseInt(
@@ -79,13 +78,24 @@ public class AssessmentOne {
 		driver.findElement(By.xpath("//span[text()='Dashboards']")).click();
 
 		// 8. Click on New Dashboard
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[text()='New Dashboard']")));
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='All Favorites']")));
+		Thread.sleep(1000);
+		//Closing all the opened dashboards
+		try {
+		countOfOpenDasboards = driver.findElementsByXPath("//*[name()='svg' and @data-key='close']/ancestor::button").size();
+		for (int i =1; i<=countOfOpenDasboards;i++) {
+			driver.findElement(By.xpath("//*[name()='svg' and @data-key='close']/ancestor::button")).click();
+		}
+		}
+		catch (Exception E)
+		{
+			
+		}
 		driver.findElement(By.xpath("//div[text()='New Dashboard']")).click();
 
 		// 9. Enter the Dashboard name as "YourName_Workout"
 		Thread.sleep(2000);
 		driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='dashboard']")));
-		Thread.sleep(2000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dashboardNameInput")));
 		driver.findElement(By.id("dashboardNameInput")).click();
 		driver.findElement(By.id("dashboardNameInput")).sendKeys(name);
@@ -100,7 +110,7 @@ public class AssessmentOne {
 		Thread.sleep(1000);
 		driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='dashboard']")));
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Done']")));
-		driver.findElement(By.xpath("//button[contains(@class,'doneEditing')]")).click();
+		executor.executeScript("arguments[0].click();", driver.findElement(By.xpath("//button[contains(@class,'doneEditing')]")));
 
 		// 12. Verify the Dashboard is Created
 		wait.until(ExpectedConditions
