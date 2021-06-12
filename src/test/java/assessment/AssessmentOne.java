@@ -98,7 +98,6 @@ public class AssessmentOne {
 		// 11. Click on Done
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Done']")));
 		Thread.sleep(1000);
-
 		driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='dashboard']")));
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Done']")));
 		driver.findElement(By.xpath("//button[contains(@class,'doneEditing')]")).click();
