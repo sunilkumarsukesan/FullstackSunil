@@ -20,7 +20,7 @@ public class BaseClass {
 		public JavascriptExecutor javaScriptExecutor;
 
 @org.testng.annotations.Parameters("BrowserName")		
-@BeforeMethod()
+@BeforeMethod(alwaysRun = true)
 public void setUp(String BrowserName) {
 	switch (BrowserName) {
 	case "Chrome":
@@ -36,6 +36,7 @@ public void setUp(String BrowserName) {
 		WebDriverManager.edgedriver().setup();
 		driver = new EdgeDriver();
 	default:
+		System.err.println("Specify the browser name");
 		break;
 	}
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -44,7 +45,7 @@ public void setUp(String BrowserName) {
 	javaScriptExecutor = (JavascriptExecutor) driver;
 }
 
-@AfterMethod
+@AfterMethod(alwaysRun = true)
 public void tearDown(){
 	driver.close();
 }

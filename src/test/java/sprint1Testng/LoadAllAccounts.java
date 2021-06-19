@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
 import utilities.BaseClass;
@@ -14,14 +15,13 @@ import utilities.ReadExcel;
 public class LoadAllAccounts extends BaseClass{
 	
 	@Test(dataProvider="SalesForceData",dataProviderClass=ReadExcel.class)
-	public void getAllAccountNames(String name, String uniqueID) throws InterruptedException {
+	public void getAllAccountNames(String UserName, String Password,ITestContext context) throws InterruptedException {
 		int currentCount =0,previousCount=0;
-		System.out.println(name + " " + uniqueID);
 		
 		// Launch the app and login with the credentials
-		driver.get("https://login.salesforce.com/");
-		driver.findElement(By.name("username")).sendKeys("mercury.bootcamp@testleaf.com");
-		driver.findElement(By.id("password")).sendKeys("Bootcamp@123");
+		driver.get(context.getCurrentXmlTest().getParameter("URL"));
+		driver.findElement(By.name("username")).sendKeys(UserName);
+		driver.findElement(By.id("password")).sendKeys(Password);
 		driver.findElement(By.id("Login")).click();
 
 		// Click on toggle menu button from the left corner
@@ -43,7 +43,7 @@ public class LoadAllAccounts extends BaseClass{
 		//Scrolling the table rows until we reach the last row
 		while (currentCount!=previousCount) {	
 			javaScriptExecutor.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//table[contains(@class,'uiVirtualDataTable')]//tr)[" + currentCount+ "]")));
-			Thread.sleep(250);
+			Thread.sleep(500);
 			previousCount = currentCount;
 			currentCount = driver.findElements(By.xpath("(//table[contains(@class,'uiVirtualDataTable')]//tr)")).size();
 		}
